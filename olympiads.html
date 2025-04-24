@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЧЭнК Олимпиады</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ЧЭнК Олимпиады</div>
+            <div class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="olympiads.html">Олимпиады</a>
+                <div class="profile-menu" id="profileMenu" style="display:none;">
+                    <span id="userName"></span>
+                    <div class="dropdown-content">
+                        <a href="profile.html">Профиль</a>
+                        <a href="#" onclick="logout()">Выход</a>
+                    </div>
+                </div>
+                <a href="login.html" id="loginNav">Войти</a>
+            </div>
+        </nav>
+    </header>
+
+<div class="container">
+    <h2>Доступные олимпиады</h2>
+    <div class="olympiads-grid">
+        <div class="olympiad-card" onclick="location.href='programming-olympiad.html'">
+            <h3>Программирование для начинающих</h3>
+            <p>1 задача · 5 минут</p>
+            <div class="status">Свободный доступ</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Математика</h3>
+            <p>12 задач · 75 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Физика</h3>
+            <p>10 задач · 60 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>История</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Английский язык</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Литература</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Музыка</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Программирование</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Корейский язык</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Польский язык</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Обществознание</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Химия</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+        <div class="olympiad-card">
+            <h3>Биология</h3>
+            <p>20 вопросов · 45 минут</p>
+            <div class="status upcoming">Скоро</div>
+        </div>
+    </div>
+</div>
+
+<footer style="text-align: center; padding: 2rem 1rem; background: #f1f1f1;">
+    <p>&copy; 2025 ЧЭнК Олимпиады. Все права защищены.</p>
+</footer>
+
+<script>
+    function switchTab(tabName) {
+        document.querySelectorAll('.auth-form, .tab').forEach(el => {
+            el.classList.remove('active');
+        });
+        document.getElementById(tabName + 'Form').classList.add('active');
+        document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        const email = document.querySelector('#loginForm input[type="email"]').value;
+        const name = email.split('@')[0];
+        const user = { name, email };
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        window.location.href = 'index.html';
+    }
+
+    function handleRegister(e) {
+        e.preventDefault();
+        const name = document.querySelector('#registerForm input[type="text"]').value;
+        const email = document.querySelector('#registerForm input[type="email"]').value;
+        const user = { name, email };
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        window.location.href = 'index.html';
+    }
+
+    function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.reload();
+    }
+
+    function renderUserMenu() {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (user) {
+            const loginLink = document.getElementById('loginNav');
+            const profileMenu = document.getElementById('profileMenu');
+            if (loginLink) loginLink.style.display = 'none';
+            if (profileMenu) {
+                profileMenu.style.display = 'inline-block';
+                document.getElementById('userName').textContent = user.name;
+            }
+        }
+    }
+
+    window.onload = renderUserMenu;
+</script>
+</body>
+</html>

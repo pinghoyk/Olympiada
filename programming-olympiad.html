@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Олимпиада по программированию</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ЧЭнК Олимпиады</div>
+            <div class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="olympiads.html">Олимпиады</a>
+                <div class="profile-menu" id="profileMenu" style="display:none;">
+                    <span id="userName"></span>
+                    <div class="dropdown-content">
+                        <a href="profile.html">Профиль</a>
+                        <a href="#" onclick="logout()">Выход</a>
+                    </div>
+                </div>
+                <a href="login.html" id="loginNav">Войти</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="olympiad-header">
+            <h1>Олимпиада по программированию</h1>
+            <div class="timer" id="timer">05:00</div>
+        </div>
+
+        <div class="questions-list">
+            <div class="question">
+                <h3>Задача 1: Сумма двух чисел</h3>
+                <p>Напишите программу, которая выводит сумму двух введенных чисел</p>
+                <textarea class="code-editor" placeholder="Введите ваш код здесь..."></textarea>
+            </div>
+        </div>
+
+        <button class="btn submit-btn" onclick="submitOlympiad()">Отправить решение</button>
+    </div>
+
+    <script>
+        let timeLeft = 300;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if(timeLeft <= 0) {
+                submitOlympiad();
+            } else {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+        
+        updateTimer();
+
+        function submitOlympiad() {
+            alert('Решения отправлены на проверку!');
+            window.location.href = 'profile.html';
+        }
+    </script>
+
+</body>
+</html>
