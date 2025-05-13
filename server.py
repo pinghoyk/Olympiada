@@ -22,6 +22,3 @@ def profile():
 @app.route('/programming-olympiad')
 def programming_olympiad():
     return render_template('programming-olympiad.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
