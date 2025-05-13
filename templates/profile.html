@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='user.js') }}" defer></script>
+    <style>
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 200px;
+            margin-bottom: 2rem;
+        }
+
+    }
+    .profile-header h1 {
+        font-size: 1.8rem;
+        margin: 0.5rem 0;
+    }
+    .profile-header p {
+        font-size: 1rem;
+        color: #777;
+    }
+    .btn {
+        background: var(--primary);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin: 1rem 0;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ЧЭнК Олимпиады</div>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="olympiads">Олимпиады</a>
+                <div class="profile-menu" id="profileMenu" style="display:none;">
+                    <span id="userName"></span>
+                    <div class="dropdown-content">
+                        <a href="profile">Профиль</a>
+                        <a href="#" class="btn" onclick="logout()">Выход</a>
+                    </div>
+                </div>
+                <a href="login" id="loginNav">Войти</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1 id="userNameDisplay">Имя пользователя</h1>
+            <a href="login" class="btn" id="logoutButton" onclick="logout()">Выход</a>
+        </div>
+
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='user.js') }}" defer></script>
+    <style>
+        .profile-menu:hover .dropdown-content,
+        .profile-menu .dropdown-content:hover {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ЧЭнК Олимпиады</div>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="olympiads">Олимпиады</a>
+                <div class="profile-menu" id="profileMenu" style="display:none;">
+                    <span id="userName"></span>
+                    <div class="dropdown-content">
+                        <a href="profile">Профиль</a>
+                        <a href="#" onclick="logout()">Выход</a>
+                    </div>
+                </div>
+                <a href="login" id="loginNav">Войти</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="auth-wrapper">
+            <div class="auth-tabs">
+                <button class="tab active" onclick="switchTab('login')">Вход</button>
+                <button class="tab" onclick="switchTab('register')">Регистрация</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" required>
+                </div>
+                <button class="btn" type="submit">Войти</button>
+            </form>
+
+            <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Имя</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" required>
+                </div>
+                <button class="btn" type="submit">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.auth-form, .tab').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Form').classList.add('active');
+            document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.querySelector('#loginForm input[type="email"]').value;
+            const password = document.querySelector('#loginForm input[type="password"]').value;
+
+            try {
+                const response = await fetch('https://olympiad-api.falpin.ru/api/login ', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    alert('Ошибка входа: ' + (result.message || 'Неверные учетные данные'));
+                    return;
+                }
+
+            // Сохраняем токен в localStorage
+                localStorage.setItem('token', result.token);
+
+            // Сохраняем имя пользователя в cookie
+                document.cookie = `username=${encodeURIComponent(result.name)}; path=/;`;
+
+            // Перезагружаем страницу или переходим на главную
+                window.location.href = '/';
+
+            } catch (error) {
+                console.error(error);
+                alert('Ошибка подключения к серверу');
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const name = document.querySelector('#registerForm input[type="text"]').value;
+            const email = document.querySelector('#registerForm input[type="email"]').value;
+            const password = document.querySelector('#registerForm input[type="password"]').value;
+
+            try {
+                const response = await fetch('https://olympiad-api.falpin.ru/api/register ', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    alert('Ошибка регистрации: ' + (result.message || 'Попробуйте позже'));
+                    return;
+                }
+
+            // После регистрации сразу логинимся
+                const loginResponse = await fetch('https://olympiad-api.falpin.ru/api/login ', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const loginResult = await loginResponse.json();
+
+                if (!loginResponse.ok) {
+                    alert('Не удалось автоматически войти');
+                    return;
+                }
+
+            // Сохраняем токен и имя пользователя
+                localStorage.setItem('token', loginResult.token);
+                document.cookie = `username=${encodeURIComponent(loginResult.user.name)}; path=/;`;
+
+                window.location.href = 'index';
+
+            } catch (error) {
+                console.error(error);
+                alert('Ошибка подключения к серверу');
+            }
+        }
+
+    </script>
+</body>
+</html>
