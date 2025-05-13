@@ -149,9 +149,9 @@
 
             // Сохраняем токен и имя пользователя
                 localStorage.setItem('token', loginResult.token);
-                document.cookie = `username=${encodeURIComponent(loginResult.user.name)}; path=/;`;
+                document.cookie = `username=${encodeURIComponent(loginResult.name)}; path=/;`;
 
-                window.location.href = 'index';
+                window.location.href = '/';
 
             } catch (error) {
                 console.error(error);
