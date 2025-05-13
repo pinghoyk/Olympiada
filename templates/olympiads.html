@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ЧЭнК Олимпиады</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script src="{{ url_for('static', filename='user.js') }}" defer></script>
+	<script src="{{ url_for('static', filename='current-olympiads.js') }}" defer></script>
+</head>
+<body>
+	<header>
+		<nav>
+			<div class="logo">ЧЭнК Олимпиады</div>
+			<div class="nav-links">
+				<a href="/">Главная</a>
+				<a href="olympiads">Олимпиады</a>
+				<div class="profile-menu" id="profileMenu" style="display:none;">
+					<span id="userName"></span>
+					<div class="dropdown-content">
+						<a href="profile">Профиль</a>
+						<a href="#" onclick="logout()">Выход</a>
+					</div>
+				</div>
+				<a href="login" id="loginNav">Войти</a>
+			</div>
+		</nav>
+	</header>
+
+	
+	<main>
+		<div class="container">
+			<h2>Доступные олимпиады</h2>
+			<div class="olympiads-grid" id="olympiadsGrid"></div>		
+		</div>
+	</main>
+
+	<footer style="text-align: center; padding: 2rem 1rem; background: #f1f1f1;">
+		<p>&copy; 2025 ЧЭнК Олимпиады. Все права защищены.</p>
+	</footer>
+
+</body>
+</html>
